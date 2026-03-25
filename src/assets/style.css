@@ -1382,40 +1382,20 @@ menu-iframe {
     }
 }
 
+/* Cleaned up for Vaso Integration */
 .acrylic-on .card,
 .acrylic-on .card.glass-container-ready {
-    background: var(--glass-tint) !important;
+    background: transparent !important; /* Force transparent so Vaso SVG can show */
     color: var(--onPrimaryContainer);
-    border: 1px solid var(--glass-border) !important;
     box-shadow: var(--glass-shadow);
 }
 
-@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
-    .acrylic-on .card,
-    .acrylic-on .card.glass-container-ready {
-        backdrop-filter: blur(18px) saturate(165%);
-        -webkit-backdrop-filter: blur(18px) saturate(165%);
-    }
-}
-
+/* Kill the old pseudo-elements that were adding thick, dark overlay shadows */
 .acrylic-on .card::before,
-.acrylic-on .card.glass-container-ready::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background-image: var(--glass-noise);
-    opacity: var(--glass-noise-opacity);
-}
-
+.acrylic-on .card.glass-container-ready::before,
 .acrylic-on .card::after,
 .acrylic-on .card.glass-container-ready::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background-image: var(--glass-sheen);
-    opacity: 0.7;
+    display: none !important; 
 }
 
 .glass-filter, .glass-overlay, .glass-specular { display: none !important; }
@@ -1923,4 +1903,11 @@ input:checked + .slider:before {
 }
 .slider.round:before {
   border-radius: 50%;
+}
+
+/* Fix for Liquid Glass rendering conflicts */
+.acrylic-on .liquid-card-wrapper {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
 }

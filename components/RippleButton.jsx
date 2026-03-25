@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function RippleButton({ children, onClick, className = '', style = {} }) {
+export default function RippleButton({ children, onClick, className = '', style = {}, delay = 0 }) {
   const [ripples, setRipples] = useState([]);
 
   const handleClick = (e) => {
@@ -11,7 +11,15 @@ export default function RippleButton({ children, onClick, className = '', style 
 
     const newRipple = { x, y, size, id: Date.now() };
     setRipples((prev) => [...prev, newRipple]);
-    if (onClick) onClick(e);
+    
+    // If a delay is provided (for navigation), wait before firing the action
+    if (onClick) {
+      if (delay > 0) {
+        setTimeout(() => onClick(e), delay);
+      } else {
+        onClick(e);
+      }
+    }
 
     setTimeout(() => {
       setRipples((prev) => prev.filter((r) => r.id !== newRipple.id));
@@ -22,7 +30,11 @@ export default function RippleButton({ children, onClick, className = '', style 
     <button className={`fluent-interactive ripple-button ${className}`} onClick={handleClick} style={{ position: 'relative', overflow: 'hidden', ...style }}>
       {children}
       {ripples.map((r) => (
-        <span key={r.id} className="ripple-effect" style={{ width: r.size, height: r.size, left: r.x, top: r.y, position: 'absolute' }} />
+        <span 
+          key={r.id} 
+          className="ripple-effect" 
+          style={{ width: r.size, height: r.size, left: r.x, top: r.y, position: 'absolute', pointerEvents: 'none' }} 
+        />
       ))}
     </button>
   );
