@@ -62,7 +62,7 @@ export const ThemeProvider = ({ children }) => {
 
   const getWallpaperUrl = () => {
     //const basePath = "https://thehighlandcafe.github.io/hioswebcore/assets/css/backgrounds/";
-    const basePath = "core/assets/backgrounds/";
+    const basePath = "assets/backgrounds/";
     let isDark =
       darkModePref === "dark" ||
       (darkModePref === "auto" &&
