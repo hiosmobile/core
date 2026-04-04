@@ -1,14 +1,26 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect } from "react";
 
 export const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [backgroundEnabled, setBackgroundEnabled] = useState(localStorage.getItem('hiosBackgroundEnabled') !== 'false');
-  const [acrylicEnabled, setAcrylicEnabled] = useState(localStorage.getItem('hiosAcrylicEnabled') !== 'false');
-  const [autoColor, setAutoColor] = useState(localStorage.getItem('hiosAutoColor') !== 'false');
-  const [wallpaperTheme, setWallpaperTheme] = useState(localStorage.getItem('hiosWallpaperTheme') || 'default');
-  const [genericColor, setGenericColor] = useState(localStorage.getItem('hiosGenericColor') || 'default-light');
-  const [darkModePref, setDarkModePref] = useState(localStorage.getItem('hiosDarkModePreference') || 'auto');
+  const [backgroundEnabled, setBackgroundEnabled] = useState(
+    localStorage.getItem("hiosBackgroundEnabled") !== "false",
+  );
+  const [acrylicEnabled, setAcrylicEnabled] = useState(
+    localStorage.getItem("hiosAcrylicEnabled") !== "false",
+  );
+  const [autoColor, setAutoColor] = useState(
+    localStorage.getItem("hiosAutoColor") !== "false",
+  );
+  const [wallpaperTheme, setWallpaperTheme] = useState(
+    localStorage.getItem("hiosWallpaperTheme") || "default",
+  );
+  const [genericColor, setGenericColor] = useState(
+    localStorage.getItem("hiosGenericColor") || "default-light",
+  );
+  const [darkModePref, setDarkModePref] = useState(
+    localStorage.getItem("hiosDarkModePreference") || "auto",
+  );
 
   // The active color theme is derived automatically, just like your legacy script
   const activeColorTheme = autoColor ? wallpaperTheme : genericColor;
@@ -19,47 +31,71 @@ export const ThemeProvider = ({ children }) => {
 
     // Apply background and acrylic toggles
     if (!backgroundEnabled) {
-      document.body.classList.add('background-off');
+      document.body.classList.add("background-off");
     } else {
-      document.body.classList.remove('background-off');
+      document.body.classList.remove("background-off");
     }
 
     if (backgroundEnabled && acrylicEnabled) {
-      document.body.classList.add('acrylic-on');
+      document.body.classList.add("acrylic-on");
     } else {
-      document.body.classList.remove('acrylic-on');
+      document.body.classList.remove("acrylic-on");
     }
 
     // Save preferences
-    localStorage.setItem('hiosBackgroundEnabled', backgroundEnabled);
-    localStorage.setItem('hiosAcrylicEnabled', acrylicEnabled);
-    localStorage.setItem('hiosAutoColor', autoColor);
-    localStorage.setItem('hiosWallpaperTheme', wallpaperTheme);
-    localStorage.setItem('hiosGenericColor', genericColor);
-    localStorage.setItem('hiosColorTheme', activeColorTheme);
-    localStorage.setItem('hiosDarkModePreference', darkModePref);
-
-  }, [backgroundEnabled, acrylicEnabled, autoColor, wallpaperTheme, genericColor, darkModePref, activeColorTheme]);
+    localStorage.setItem("hiosBackgroundEnabled", backgroundEnabled);
+    localStorage.setItem("hiosAcrylicEnabled", acrylicEnabled);
+    localStorage.setItem("hiosAutoColor", autoColor);
+    localStorage.setItem("hiosWallpaperTheme", wallpaperTheme);
+    localStorage.setItem("hiosGenericColor", genericColor);
+    localStorage.setItem("hiosColorTheme", activeColorTheme);
+    localStorage.setItem("hiosDarkModePreference", darkModePref);
+  }, [
+    backgroundEnabled,
+    acrylicEnabled,
+    autoColor,
+    wallpaperTheme,
+    genericColor,
+    darkModePref,
+    activeColorTheme,
+  ]);
 
   const getWallpaperUrl = () => {
-    const basePath = "https://thehighlandcafe.github.io/hioswebcore/assets/css/backgrounds/";
-    let isDark = darkModePref === 'dark' || (darkModePref === 'auto' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
-    const themeName = wallpaperTheme === 'default' ? 'backgroundimage' : wallpaperTheme;
-    return `url('${basePath}${themeName}${isDark ? '-dark.png' : '.jpg'}')`;
+    //const basePath = "https://thehighlandcafe.github.io/hioswebcore/assets/css/backgrounds/";
+    const basePath = "core/assets/backgrounds/";
+    let isDark =
+      darkModePref === "dark" ||
+      (darkModePref === "auto" &&
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches);
+    const themeName =
+      wallpaperTheme === "default" ? "backgroundimage" : wallpaperTheme;
+    return `url('${basePath}${themeName}${isDark ? "-dark.png" : ".jpg"}')`;
   };
 
   return (
-    <ThemeContext.Provider value={{
-      backgroundEnabled, setBackgroundEnabled,
-      acrylicEnabled, setAcrylicEnabled,
-      autoColor, setAutoColor,
-      wallpaperTheme, setWallpaperTheme,
-      genericColor, setGenericColor,
-      darkModePref, setDarkModePref
-    }}>
+    <ThemeContext.Provider
+      value={{
+        backgroundEnabled,
+        setBackgroundEnabled,
+        acrylicEnabled,
+        setAcrylicEnabled,
+        autoColor,
+        setAutoColor,
+        wallpaperTheme,
+        setWallpaperTheme,
+        genericColor,
+        setGenericColor,
+        darkModePref,
+        setDarkModePref,
+      }}
+    >
       {backgroundEnabled && (
         <div className="background-wrapper">
-          <div className="background-image" style={{ backgroundImage: getWallpaperUrl() }}></div>
+          <div
+            className="background-image"
+            style={{ backgroundImage: getWallpaperUrl() }}
+          ></div>
         </div>
       )}
       {children}
