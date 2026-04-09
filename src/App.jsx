@@ -18,6 +18,7 @@ import Roomkey from "./pages/Roomkey";
 
 import Settings from "./pages/Settings";
 import Appearance from "./pages/settings/Appearance";
+import Accessibility from "./pages/settings/Accessibility";
 import Apps from "./pages/settings/Apps";
 import About from "./pages/settings/About";
 import Privacy from "./pages/settings/Privacy";
@@ -32,20 +33,28 @@ export default function App() {
       <HashRouter>
         <Routes>
           <Route path="/" element={<Gateway />} />
+
           <Route path="/welcome" element={<Home />} />
+
           <Route path="/restaurant" element={<Restaurant />} />
           <Route path="/restaurant/hicafe" element={<HiCafe />} />
           <Route path="/restaurant/breakfast" element={<Breakfast />} />
           <Route path="/restaurant/cafefiesta" element={<CafeFiesta />} />
           <Route path="/restaurant/locations" element={<Locations />} />
+
           <Route path="/hotelactivities" element={<HotelActivities />} />
+
           <Route path="/roomkey" element={<Roomkey />} />
+
           <Route path="/settings" element={<Settings />} />
           <Route path="/settings/appearance" element={<Appearance />} />
+          <Route path="/settings/accessibility" element={<Accessibility />} />
           <Route path="/settings/apps" element={<Apps />} />
           <Route path="/settings/about" element={<About />} />
           <Route path="/settings/privacy" element={<Privacy />} />
+
           <Route path="/help" element={<Help />} />
+
           <Route path="/viewer" element={<FullscreenViewer />} />
         </Routes>
       </HashRouter>

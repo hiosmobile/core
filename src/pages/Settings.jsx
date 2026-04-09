@@ -40,6 +40,19 @@ export default function Settings() {
           </Card>
 
           <Card className="mt-2">
+            <h2 className="card-title">Ease of Access</h2>
+            <MenuActionBtn
+              icon="accessibility"
+              text="Accessibility"
+              className="full"
+              onClick={() => navigate("/settings/accessibility")}
+            />
+          </Card>
+        </div>
+
+        {/*Right col*/}
+        <div className="col-12 col-md-6">
+          <Card>
             <h2 className="card-title">General</h2>
             <MenuActionBtn
               icon="dashboard_customize"
@@ -48,11 +61,8 @@ export default function Settings() {
               onClick={() => navigate("/settings/apps")}
             />
           </Card>
-        </div>
 
-        {/*Right col*/}
-        <div className="col-12 col-md-6">
-          <Card>
+          <Card className="mt-2">
             <h2 className="card-title">More</h2>
             <MenuActionBtn
               icon="info"

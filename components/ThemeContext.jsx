@@ -21,28 +21,33 @@ export const ThemeProvider = ({ children }) => {
   const [darkModePref, setDarkModePref] = useState(
     localStorage.getItem("hiosDarkModePreference") || "auto",
   );
+  const [highContrastEnabled, setHighContrastEnabled] = useState(
+    localStorage.getItem("hiosHighContrastEnabled") === "true",
+  );
 
-  // The active color theme is derived automatically, just like your legacy script
   const activeColorTheme = autoColor ? wallpaperTheme : genericColor;
 
   useEffect(() => {
-    // Apply derived color theme
     document.body.className = activeColorTheme;
 
-    // Apply background and acrylic toggles
+    if (highContrastEnabled) {
+      document.body.classList.add("high-contrast");
+    } else {
+      document.body.classList.remove("high-contrast");
+    }
+
     if (!backgroundEnabled) {
       document.body.classList.add("background-off");
     } else {
       document.body.classList.remove("background-off");
     }
 
-    if (backgroundEnabled && acrylicEnabled) {
+    if (backgroundEnabled && acrylicEnabled && !highContrastEnabled) {
       document.body.classList.add("acrylic-on");
     } else {
       document.body.classList.remove("acrylic-on");
     }
 
-    // Save preferences
     localStorage.setItem("hiosBackgroundEnabled", backgroundEnabled);
     localStorage.setItem("hiosAcrylicEnabled", acrylicEnabled);
     localStorage.setItem("hiosAutoColor", autoColor);
@@ -50,6 +55,7 @@ export const ThemeProvider = ({ children }) => {
     localStorage.setItem("hiosGenericColor", genericColor);
     localStorage.setItem("hiosColorTheme", activeColorTheme);
     localStorage.setItem("hiosDarkModePreference", darkModePref);
+    localStorage.setItem("hiosHighContrastEnabled", highContrastEnabled);
   }, [
     backgroundEnabled,
     acrylicEnabled,
@@ -58,10 +64,10 @@ export const ThemeProvider = ({ children }) => {
     genericColor,
     darkModePref,
     activeColorTheme,
+    highContrastEnabled,
   ]);
 
   const getWallpaperUrl = () => {
-    //const basePath = "https://thehighlandcafe.github.io/hioswebcore/assets/css/backgrounds/";
     const basePath = "assets/backgrounds/";
     let isDark =
       darkModePref === "dark" ||
@@ -88,9 +94,11 @@ export const ThemeProvider = ({ children }) => {
         setGenericColor,
         darkModePref,
         setDarkModePref,
+        highContrastEnabled,
+        setHighContrastEnabled,
       }}
     >
-      {backgroundEnabled && (
+      {backgroundEnabled && !highContrastEnabled && (
         <div className="background-wrapper">
           <div
             className="background-image"
